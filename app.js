@@ -73,15 +73,12 @@ function saveData() {
             throw new Error("Algo ha ido mal al escribir");
         }
         // Despedida
-        console.log(`Gracias ${userAnswers.nombre}, ahora ya conozco:
+        console.log(`
+        Gracias ${userAnswers.nombre}, ahora ya conozco:
         
         ${dbFile.animal.length} animales.
         ${dbFile.vegetal.length} vegetales.
         ${dbFile.mineral.length} minerales.
-
-        Nuevo ${userAnswers.tipo} aprendido:
-        - ${userAnswers.userItem}.
-        - Autor: ${userAnswers.nombre}.
 
         Vuelve a jugar cuando quieras :)
         `)
@@ -100,10 +97,15 @@ async function endGame() {
     saveData();
 }
 
-function winGame() {
+function winGame(subject) {
     console.log(`
     Genial! He acertado!
-    Muchas Gracias
+
+    Este elemento lo he aprendido gracias a ${subject.author}:
+        - Tipo: ${userAnswers.tipo}.
+        - Nombre ${subject.name}.
+
+    Muchas Gracias!!
     Vuelve a jugar cuando quieras :)
     `);
 }
@@ -113,12 +115,12 @@ async function resolveGame(subject) {
         {
             type: "confirm",
             name: "isResolved",
-            message: `Estás pensando en ${subject}?`
+            message: `Estás pensando en ${subject.name}?`
         }
     ]);
     // Si acertamos, hemos ganado
     if (stepResolve.isResolved) {
-        return winGame();
+        return winGame(subject);
     };
 
     currentTry ++;
@@ -156,7 +158,7 @@ async function tryAnswers() {
 
     // Comprobar si hemos acertado
     if (stepTry.isTryOk) {
-        return resolveGame(choice.name);
+        return resolveGame(choice);
         return winGame();
     }   
 
