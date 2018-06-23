@@ -1,0 +1,18 @@
+{
+    "animal": [
+        {
+            "name": "vaca",
+            "author": "cpu",
+            "questions": [
+                "¿Da leche?",
+                "¿Le gusta muuuuucho la hierba?"
+            ]
+        }
+    ],
+    "vegetal": [
+        
+    ],
+    "mineral": [
+        
+    ]
+}
