@@ -19,6 +19,8 @@ const userAnswers = {
 // Intentos del usuario
 const maxTries = 2;
 let currentTry = 0;
+// Almacenar indicesde preguntas para no repetir
+let selectedTypeRaw = [];
 
 // Validacion de campos string
 const stringValidator = value => value.length > 0 || "Debes introducir un valor"
@@ -77,6 +79,10 @@ function saveData() {
         ${dbFile.vegetal.length} vegetales.
         ${dbFile.mineral.length} minerales.
 
+        Nuevo ${userAnswers.tipo} aprendido:
+        - ${userAnswers.userItem}.
+        - Autor: ${userAnswers.nombre}.
+
         Vuelve a jugar cuando quieras :)
         `)
     })
@@ -120,20 +126,23 @@ async function resolveGame(subject) {
 }
 
 async function tryAnswers() {
-
-    if (currentTry >= maxTries) {
+    // Comprobamos si al usuario le quedan oportunidades o si no hay más preguntas
+    if (currentTry >= maxTries || selectedTypeRaw.length === 0) {
         console.log(`
         OK, me rindo :(
         No acierto a adivinar lo que tu mente es capaz de imaginar
         `)
         return endGame();
     }
+    
+    // Numero aleatorio de entre los posible, generamos el indice de la pregunta
+    const posRandom = Math.round(Math.random() * (selectedTypeRaw.length - 1));
 
-    const selectedType = dbFile[userAnswers.tipo];
-    // Numero aleatorio de entre los posible
-    const posRandom = Math.round(Math.random() * (selectedType.length - 1));
-    // Elijo el item
-    const choice = selectedType[posRandom];
+    // Elimino el item
+    // Creo un objeto nuevo para no perder la ref
+    const choice = {...selectedTypeRaw[posRandom]};
+    // Elimino ese item, ya lo hemos usado
+    selectedTypeRaw.splice(posRandom, 1);
     // Hacemos una pregunta
     const stepTry = await inquirer.prompt([
         {
@@ -193,6 +202,12 @@ async function playGame() {
             // GAME OVER
             return endGame();
         }
+
+        // Referencia del tipo
+        const selectedType = dbFile[userAnswers.tipo];
+        // Clono el array en mi array independiente
+        selectedTypeRaw = [...selectedType];
+
         tryAnswers()
     }, 1500);
     

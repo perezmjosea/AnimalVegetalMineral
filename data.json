@@ -1,18 +1,1 @@
-{
-    "animal": [
-        {
-            "name": "vaca",
-            "author": "cpu",
-            "questions": [
-                "¿Da leche?",
-                "¿Le gusta muuuuucho la hierba?"
-            ]
-        }
-    ],
-    "vegetal": [
-        
-    ],
-    "mineral": [
-        
-    ]
-}
+{"animal":[{"name":"vaca","author":"cpu","questions":["¿Da leche?","¿Le gusta muuuuucho la hierba?"]},{"name":"Oso","author":"Jose","questions":["¿Le gusta la miel?"]},{"name":"Cocodrilo","author":"Jose","questions":["¿Tiene escamas?"]}],"vegetal":[{"name":"Tomate","author":"Jose","questions":["¿Es rojo?"]}],"mineral":[]}
